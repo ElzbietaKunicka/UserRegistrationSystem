@@ -1,4 +1,6 @@
-﻿namespace ZmogausUzregistravimoSistema.BLL
+﻿using UserRegistrationSystem.Dto;
+
+namespace UserRegistrationSystem.BLL
 {
     public interface IAccountService
     {

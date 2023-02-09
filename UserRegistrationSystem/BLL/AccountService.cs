@@ -1,8 +1,9 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
-using ZmogausUzregistravimoSistema.DAL;
+using UserRegistrationSystem.DAL;
+using UserRegistrationSystem.Dto;
 
-namespace ZmogausUzregistravimoSistema.BLL
+namespace UserRegistrationSystem.BLL
 {
     public class AccountService : IAccountService
     {
@@ -37,12 +38,15 @@ namespace ZmogausUzregistravimoSistema.BLL
         }
         private Account CreateAccount(string username, string password)
         {
+            var counter = 0;
             CreatePasswordHash(password, out var passwordHash, out var passwordSalt);
             var account = new Account
             {
                 UserName = username,
+                Password = password,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
+                
                 Role = "User"
             };
             return account;

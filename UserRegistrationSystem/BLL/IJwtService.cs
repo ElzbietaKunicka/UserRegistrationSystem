@@ -1,4 +1,4 @@
-﻿namespace ZmogausUzregistravimoSistema.BLL
+﻿namespace UserRegistrationSystem.BLL
 {
     public interface IJwtService
     {

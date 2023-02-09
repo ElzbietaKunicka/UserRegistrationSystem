@@ -3,7 +3,7 @@ using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace ZmogausUzregistravimoSistema.BLL
+namespace UserRegistrationSystem.BLL
 {
     public class JwtService : IJwtService
     {
