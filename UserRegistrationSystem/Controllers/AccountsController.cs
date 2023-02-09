@@ -11,7 +11,6 @@ namespace UserRegistrationSystem.Controllers
     {
         private readonly IAccountService _accountService;
         private readonly IJwtService _jwtService;
-
         public AccountsController(IAccountService accountService, IJwtService jwtService)
         {
             _accountService = accountService;
@@ -29,7 +28,6 @@ namespace UserRegistrationSystem.Controllers
         public ActionResult Login([FromBody] AuthRequestDto request)
         {
             var (loginSuccess, account) = _accountService.Login(request.UserName, request.Password);
-
             if (!loginSuccess)
             {
                 return BadRequest("Invalid username or password");
@@ -40,8 +38,6 @@ namespace UserRegistrationSystem.Controllers
                 // todo generate jwt
                 return Ok(jwt);
             }
-
         }
-
     }
 }

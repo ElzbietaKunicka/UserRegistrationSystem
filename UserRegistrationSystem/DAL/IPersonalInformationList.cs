@@ -7,6 +7,5 @@ namespace UserRegistrationSystem.DAL
         void UpdatePersonalInformation(int currentUserId, PersonalInformationDto personalInformationDto);
         PersonalInformation getPersonalInformationById(int currentUserId);
         void AddNewPersonalInformation(int currentUserId, PersonalInformationDto personalInformationDto);
-        
     }
 }

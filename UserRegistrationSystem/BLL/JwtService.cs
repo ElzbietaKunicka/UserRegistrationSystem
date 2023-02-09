@@ -11,7 +11,6 @@ namespace UserRegistrationSystem.BLL
         public JwtService(IConfiguration configuration)
         {
             _configuration = configuration;
-
         }
         public string GetJwtToken(string username, int accountId, string role)
         {
@@ -23,9 +22,7 @@ namespace UserRegistrationSystem.BLL
             };
             var secretToken = _configuration.GetSection("Jwt:Key").Value;
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretToken));
-
             var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
-
             var token = new JwtSecurityToken(
                 issuer: _configuration.GetSection("Jwt:Issuer").Value,
                 audience: _configuration.GetSection("Jwt:Audience").Value,

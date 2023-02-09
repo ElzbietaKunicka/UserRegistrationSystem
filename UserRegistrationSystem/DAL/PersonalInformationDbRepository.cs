@@ -31,17 +31,14 @@ namespace UserRegistrationSystem.DAL
                     Street = personalInformationDto.ResidentialAddress.Street,
                     HomeNumber = personalInformationDto.ResidentialAddress.HomeNumber,
                     ApartmentNumber = personalInformationDto.ResidentialAddress.ApartmentNumber,
-
                 },
             };
             _context.SaveChanges();
         }
-
         public PersonalInformation getPersonalInformationById(int currentUserId)
         {
             throw new NotImplementedException();
         }
-
         public void UpdatePersonalInformation(int currentUserId,
             PersonalInformationDto personalInformationDto)
         {
@@ -61,9 +58,7 @@ namespace UserRegistrationSystem.DAL
                 personalInformationDto.ResidentialAddress.HomeNumber;
             userFromDb.PersonalInformation.ResidentialAddress.ApartmentNumber = 
                 personalInformationDto.ResidentialAddress.ApartmentNumber;
-
             _context.SaveChanges();
-
         }
     }
 }

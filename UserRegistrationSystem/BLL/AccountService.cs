@@ -38,7 +38,6 @@ namespace UserRegistrationSystem.BLL
         }
         private Account CreateAccount(string username, string password)
         {
-            var counter = 0;
             CreatePasswordHash(password, out var passwordHash, out var passwordSalt);
             var account = new Account
             {
@@ -46,7 +45,6 @@ namespace UserRegistrationSystem.BLL
                 Password = password,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
-                
                 Role = "User"
             };
             return account;

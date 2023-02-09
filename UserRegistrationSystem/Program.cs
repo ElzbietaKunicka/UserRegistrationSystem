@@ -20,7 +20,6 @@ namespace UserRegistrationSystem
                 {
                     o.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
                 });
-
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -40,7 +39,6 @@ namespace UserRegistrationSystem
                         Type = SecuritySchemeType.Http,
                         BearerFormat = "JWT",
                         Scheme = "Bearer"
-
                     });
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
@@ -55,18 +53,15 @@ namespace UserRegistrationSystem
                         },
                         new string[]{ }
                     }
-
                 });
             });
 
-
             builder.Services.AddDbContext<AccountsListDbContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("Database")));
+            options.UseSqlServer(builder.Configuration.GetConnectionString("Database")));
             builder.Services.AddScoped<IAccountRepository, AccountRepository>();
             builder.Services.AddScoped<IPersonalInformationList, PersonalInformationDbRepository>();
             builder.Services.AddScoped<IAccountService, AccountService>();
             builder.Services.AddScoped<IJwtService, JwtService>();
-
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowSpecificOrigin",
@@ -78,8 +73,6 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("Database")));
                         .AllowAnyHeader()
                         .AllowCredentials();
                     });
-
-
             });
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -96,7 +89,6 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("Database")));
                     };
                 });
 
-
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -110,7 +102,6 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("Database")));
             app.UseCors("AllowSpecificOrigin");
             app.UseAuthentication();
             app.UseAuthorization();
-
 
             app.MapControllers();
 
