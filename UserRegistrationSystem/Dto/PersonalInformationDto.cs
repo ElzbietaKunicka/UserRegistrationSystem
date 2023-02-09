@@ -6,10 +6,10 @@ namespace UserRegistrationSystem.Dto
     {
         public string Name { get; set; }
         public string Surname { get; set; }
-        public int PersonalCode { get; set; }
+        public string PersonalCode { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
-        public ResidentialAddress ResidentialAddress { get; set; }
+        public ResidentialAddressDto ResidentialAddress { get; set; }
         //[ForeignKey("ResidentialAddressId")]
        //public int ResidentialAddressId { get; set; }
     }

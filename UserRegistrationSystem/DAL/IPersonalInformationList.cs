@@ -4,9 +4,9 @@ namespace UserRegistrationSystem.DAL
 {
     public interface IPersonalInformationList
     {
-        void UpdatePersonalInformation(string name, string surname, int personalCode, string phone, string email, ResidentialAddress residentialAddress);
-        PersonalInformation getPersonalInformationById(int id);
-        void AddNewPersonalInformation(PersonalInformationDto personalInformationDto);
+        void UpdatePersonalInformation(int currentUserId, string name, string surname, int personalCode, string phone, string email, ResidentialAddress residentialAddress);
+        PersonalInformation getPersonalInformationById(int currentUserId);
+        void AddNewPersonalInformation(int currentUserId, PersonalInformationDto personalInformationDto);
         
     }
 }

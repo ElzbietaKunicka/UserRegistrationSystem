@@ -63,7 +63,7 @@ namespace UserRegistrationSystem
             builder.Services.AddDbContext<AccountsListDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("Database")));
             builder.Services.AddScoped<IAccountRepository, AccountRepository>();
-            builder.Services.AddScoped<IPersonalInformationList, >();
+            builder.Services.AddScoped<IPersonalInformationList, PersonalInformationDbRepository>();
             builder.Services.AddScoped<IAccountService, AccountService>();
             builder.Services.AddScoped<IJwtService, JwtService>();
 

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UserRegistrationSystem;
 
@@ -11,9 +12,11 @@ using UserRegistrationSystem;
 namespace UserRegistrationSystem.Migrations
 {
     [DbContext(typeof(AccountsListDbContext))]
-    partial class AccountsListDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230209214027_ResidentialAddressIdNullAble")]
+    partial class ResidentialAddressIdNullAble
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

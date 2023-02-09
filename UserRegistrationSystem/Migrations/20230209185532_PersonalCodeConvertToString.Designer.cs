@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UserRegistrationSystem;
 
@@ -11,9 +12,11 @@ using UserRegistrationSystem;
 namespace UserRegistrationSystem.Migrations
 {
     [DbContext(typeof(AccountsListDbContext))]
-    partial class AccountsListDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230209185532_PersonalCodeConvertToString")]
+    partial class PersonalCodeConvertToString
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,7 +87,7 @@ namespace UserRegistrationSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ResidentialAddressId")
+                    b.Property<int>("ResidentialAddressId")
                         .HasColumnType("int");
 
                     b.Property<string>("Surname")
@@ -138,7 +141,9 @@ namespace UserRegistrationSystem.Migrations
                 {
                     b.HasOne("UserRegistrationSystem.ResidentialAddress", "ResidentialAddress")
                         .WithMany()
-                        .HasForeignKey("ResidentialAddressId");
+                        .HasForeignKey("ResidentialAddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ResidentialAddress");
                 });

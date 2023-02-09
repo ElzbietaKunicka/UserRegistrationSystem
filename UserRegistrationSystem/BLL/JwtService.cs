@@ -18,8 +18,8 @@ namespace UserRegistrationSystem.BLL
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, username),
-                new Claim("sub", accountId.ToString()),
-                 new Claim(ClaimTypes.Role, role)
+                new Claim(ClaimTypes.NameIdentifier, accountId.ToString()),
+                new Claim(ClaimTypes.Role, role)
             };
             var secretToken = _configuration.GetSection("Jwt:Key").Value;
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretToken));
