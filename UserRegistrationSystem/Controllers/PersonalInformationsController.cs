@@ -26,5 +26,14 @@ namespace UserRegistrationSystem.Controllers
             var currentUserIdInt = int.Parse(userIdStr);
             _personalInformationList.AddNewPersonalInformation(currentUserIdInt, personalInformationToAdd);
         }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        [HttpPut]
+        public void UpdateItem(PersonalInformationDto personalInformationToAdd)
+        {
+            var userIdStr = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            var currentUserIdInt = int.Parse(userIdStr);
+            _personalInformationList.UpdatePersonalInformation(currentUserIdInt, personalInformationToAdd);
+        }
     }
 }
