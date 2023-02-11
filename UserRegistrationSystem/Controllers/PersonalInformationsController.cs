@@ -20,7 +20,7 @@ namespace UserRegistrationSystem.Controllers
         }
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
         [HttpPost]
-        public void PostItem(PersonalInformationDto personalInformationToAdd)
+        public void PostItem([FromQuery]PersonalInformationDto personalInformationToAdd)
         {
             var userIdStr = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
             var currentUserIdInt = int.Parse(userIdStr);
@@ -29,7 +29,7 @@ namespace UserRegistrationSystem.Controllers
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
         [HttpPut]
-        public void UpdateItem(PersonalInformationDto personalInformationToAdd)
+        public void UpdateItem([FromQuery]PersonalInformationDto personalInformationToAdd)
         {
             var userIdStr = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
             var currentUserIdInt = int.Parse(userIdStr);
@@ -42,7 +42,7 @@ namespace UserRegistrationSystem.Controllers
         //    return _personalInformationList.getPersonalInformationById(accountId);
 
         //}
-        ////[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
         [HttpGet]
         public List<PersonalInformationDto> GetPersonalInformationByIdI(int personalInfoId)
         {
