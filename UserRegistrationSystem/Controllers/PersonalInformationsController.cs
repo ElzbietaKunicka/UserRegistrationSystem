@@ -35,5 +35,19 @@ namespace UserRegistrationSystem.Controllers
             var currentUserIdInt = int.Parse(userIdStr);
             _personalInformationList.UpdatePersonalInformation(currentUserIdInt, personalInformationToAdd);
         }
+        ////[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        //[HttpGet]
+        //public PersonalInformation GetPersonalInformationByIdI(int accountId)
+        //{
+        //    return _personalInformationList.getPersonalInformationById(accountId);
+
+        //}
+        ////[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        [HttpGet]
+        public List<PersonalInformationDto> GetPersonalInformationByIdI(int personalInfoId)
+        {
+            return _personalInformationList.getPersonalInformationById(personalInfoId);
+
+        }
     }
 }

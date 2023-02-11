@@ -7,12 +7,13 @@ namespace UserRegistrationSystem.DAL
     public class PersonalInformationDbRepository : IPersonalInformationList
     {
         private readonly AccountsListDbContext _context;
-        private int _lastId;
+        
+       
+        //private int _lastId;
         public PersonalInformationDbRepository(AccountsListDbContext context)
         {
             _context = context;
         }
-
         public void AddNewPersonalInformation(int currentUserId, 
             PersonalInformationDto personalInformationDto)
         {
@@ -35,10 +36,32 @@ namespace UserRegistrationSystem.DAL
             };
             _context.SaveChanges();
         }
-        public PersonalInformation getPersonalInformationById(int currentUserId)
+        //public PersonalInformation getPersonalInformationById(int accountId)
+        //{
+        //    var account = _context.Accounts.Include(b => b.PersonalInformation).ThenInclude(b => b.ResidentialAddress)
+        //        .FirstOrDefault(p => p.Id == accountId);
+        //    return account.PersonalInformation;
+        //}
+        public List<PersonalInformationDto> getPersonalInformationById(int personalInfoId)
         {
-            throw new NotImplementedException();
+            return _context.PersonalInformation.Where(x => x.Id == personalInfoId).Select(x => new PersonalInformationDto
+            {
+                Name = x.Name,
+                Surname = x.Surname,
+                PersonalCode = x.PersonalCode,
+                Phone = x.Phone,
+                Email = x.Email,
+                ResidentialAddress = new ResidentialAddressDto
+                {
+                    City = x.ResidentialAddress.City,
+                    Street = x.ResidentialAddress.Street,
+                    HomeNumber = x.ResidentialAddress.HomeNumber,
+                    ApartmentNumber = x.ResidentialAddress.ApartmentNumber,
+                }
+            }).ToList();
         }
+
+
         public void UpdatePersonalInformation(int currentUserId,
             PersonalInformationDto personalInformationDto)
         {
