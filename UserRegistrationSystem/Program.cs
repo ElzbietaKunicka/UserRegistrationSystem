@@ -68,7 +68,7 @@ namespace UserRegistrationSystem
                     builder =>
                     {
                         builder
-                        .WithOrigins("http://127.0.0.1:5501/")
+                        .WithOrigins("http://127.0.0.1:5501")
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials();
