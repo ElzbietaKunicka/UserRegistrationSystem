@@ -20,16 +20,16 @@ namespace UserRegistrationSystem.Controllers
         }
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
         [HttpPost]
-        public void PostItem([FromQuery]PersonalInformationDto personalInformationToAdd)
+        public void PostItem([FromBody]PersonalInformationDto personalInformationToAdd)
         {
             var userIdStr = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
             var currentUserIdInt = int.Parse(userIdStr);
-            _personalInformationList.AddNewPersonalInformation(currentUserIdInt, personalInformationToAdd);
+           _personalInformationList.AddNewPersonalInformation(currentUserIdInt, personalInformationToAdd);
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
         [HttpPut]
-        public void UpdateItem([FromQuery]PersonalInformationDto personalInformationToAdd)
+        public void UpdateItem([FromBody]PersonalInformationDto personalInformationToAdd)
         {
             var userIdStr = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
             var currentUserIdInt = int.Parse(userIdStr);
@@ -47,7 +47,7 @@ namespace UserRegistrationSystem.Controllers
         public List<PersonalInformationDto> GetPersonalInformationByIdI(int personalInfoId)
         {
             return _personalInformationList.getPersonalInformationById(personalInfoId);
-
+            // selecta adr requestas and response...
         }
     }
 }
