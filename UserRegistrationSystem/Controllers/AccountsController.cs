@@ -23,7 +23,10 @@ namespace UserRegistrationSystem.Controllers
         public ActionResult Signup([FromBody] AuthRequestDto request)
         {
             _accountService.SignupNewAccount(request.UserName, request.Password);
-            return Ok();
+            // return ok();
+           
+            return Content($"{request.UserName}");
+            
         }
 
         [HttpPost("Login")]
