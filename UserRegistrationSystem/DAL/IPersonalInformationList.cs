@@ -8,5 +8,7 @@ namespace UserRegistrationSystem.DAL
         //PersonalInformation getPersonalInformationById(int accountId);
         List<PersonalInformationDto> getPersonalInformationById(int id);
         void AddNewPersonalInformation(int currentUserId, PersonalInformationDto personalInformationDto);
+
+        int? getPersonalInformationIdByCurrentUser(int currentUserId);
     }
 }

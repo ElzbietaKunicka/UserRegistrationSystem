@@ -24,7 +24,11 @@ namespace UserRegistrationSystem.Controllers
         {
             var userIdStr = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
             var currentUserIdInt = int.Parse(userIdStr);
-           _personalInformationList.AddNewPersonalInformation(currentUserIdInt, personalInformationToAdd);
+            
+           
+                _personalInformationList.AddNewPersonalInformation(currentUserIdInt, personalInformationToAdd);
+            
+           //_personalInformationList.AddNewPersonalInformation(currentUserIdInt, personalInformationToAdd);
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
@@ -44,10 +48,20 @@ namespace UserRegistrationSystem.Controllers
         //}
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
         [HttpGet]
-        public List<PersonalInformationDto> GetPersonalInformationByIdI(int personalInfoId)
+        public List<PersonalInformationDto> GetPersonalInformationById(int personalInfoId)
         {
             return _personalInformationList.getPersonalInformationById(personalInfoId);
             // selecta adr requestas and response...
+        }
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        [HttpGet("PersonalInformationId")]
+        public int? GetPersonalInformationIdByCurrentUserId()
+        {
+            var userIdStr = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            var currentUserIdInt = int.Parse(userIdStr);
+            return _personalInformationList.getPersonalInformationIdByCurrentUser(currentUserIdInt);
+
+
         }
     }
 }

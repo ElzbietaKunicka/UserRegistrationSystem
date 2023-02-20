@@ -20,22 +20,31 @@ namespace UserRegistrationSystem.DAL
         {
             //var userFromDb = _context.Accounts.Include(b => b.PersonalInformation).ThenInclude(b => b.ResidentialAddress).FirstOrDefault(p => p.Id== currentUserId);
             var userFromDb = _context.Accounts.FirstOrDefault(p => p.Id == currentUserId);
-            userFromDb.PersonalInformation = new PersonalInformation
+
+            if(userFromDb.PersonalInformationId == null)
             {
-                Name = personalInformationDto.Name.Trim(),
-                Surname = personalInformationDto.Surname.Trim(),
-                PersonalCode = personalInformationDto.PersonalCode.Trim(),
-                Phone = personalInformationDto.Phone.Trim(),
-                Email = personalInformationDto.Email.Trim(),
-                ResidentialAddress = new ResidentialAddress
+                userFromDb.PersonalInformation = new PersonalInformation
                 {
-                    City = personalInformationDto.ResidentialAddress.City.Trim(),
-                    Street = personalInformationDto.ResidentialAddress.Street.Trim(),
-                    HomeNumber = personalInformationDto.ResidentialAddress.HomeNumber,
-                    ApartmentNumber = personalInformationDto.ResidentialAddress.ApartmentNumber,
-                },
-            };
-            _context.SaveChanges();
+                    Name = personalInformationDto.Name.Trim(),
+                    Surname = personalInformationDto.Surname.Trim(),
+                    PersonalCode = personalInformationDto.PersonalCode.Trim(),
+                    Phone = personalInformationDto.Phone.Trim(),
+                    Email = personalInformationDto.Email.Trim(),
+                    ResidentialAddress = new ResidentialAddress
+                    {
+                        City = personalInformationDto.ResidentialAddress.City.Trim(),
+                        Street = personalInformationDto.ResidentialAddress.Street.Trim(),
+                        HomeNumber = personalInformationDto.ResidentialAddress.HomeNumber,
+                        ApartmentNumber = personalInformationDto.ResidentialAddress.ApartmentNumber,
+                    },
+                };
+                _context.SaveChanges();
+            }
+            else
+            {
+                throw new Exception("Jau uzpildyta informacija, galite tik update");
+            }
+           
         }
         //public PersonalInformation getPersonalInformationById(int accountId)
         //{
@@ -60,6 +69,12 @@ namespace UserRegistrationSystem.DAL
                     ApartmentNumber = x.ResidentialAddress.ApartmentNumber,
                 }
             }).ToList();
+        }
+       public int? getPersonalInformationIdByCurrentUser(int currentUserId)
+        {
+            var userFromDb = _context.Accounts.FirstOrDefault(p => p.Id == currentUserId);
+            return userFromDb.PersonalInformationId;
+
         }
 
 
