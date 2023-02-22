@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -47,7 +48,7 @@ namespace UserRegistrationSystem.Controllers
 
         //}
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
-        [HttpGet]
+        [HttpGet] // want todo pagal accountId o ne pagal personal info
         public List<PersonalInformationDto> GetPersonalInformationById(int personalInfoId)
         {
             return _personalInformationList.getPersonalInformationById(personalInfoId);
@@ -60,8 +61,22 @@ namespace UserRegistrationSystem.Controllers
             var userIdStr = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
             var currentUserIdInt = int.Parse(userIdStr);
             return _personalInformationList.getPersonalInformationIdByCurrentUser(currentUserIdInt);
+        }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        //[ProducesDefaultResponseType(typeof(AccountDto))]
+        [HttpGet("AllUsersInfo")]
+        public IEnumerable<AccountDto> GetAlLInfoAboutUsers()
+        {
+            //var userIdStr = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            //var currentUserIdInt = int.Parse(userIdStr);
+            return _personalInformationList.GetAllInfoAboutUsers();
+        }
 
+        [HttpGet("AccountsNames")]
+        public IEnumerable<string> GetAlLUsersname()
+        {
+            return _personalInformationList.GetUsersName();
         }
     }
 }

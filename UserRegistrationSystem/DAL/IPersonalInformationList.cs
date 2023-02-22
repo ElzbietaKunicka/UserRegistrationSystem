@@ -10,5 +10,9 @@ namespace UserRegistrationSystem.DAL
         void AddNewPersonalInformation(int currentUserId, PersonalInformationDto personalInformationDto);
 
         int? getPersonalInformationIdByCurrentUser(int currentUserId);
+        //List<Account> GetAllUsersAccount(AccountDto accDto);
+
+        IEnumerable<AccountDto> GetAllInfoAboutUsers();
+        IEnumerable<string> GetUsersName();
     }
 }
