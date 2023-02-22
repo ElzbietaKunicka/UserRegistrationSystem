@@ -2,6 +2,7 @@
 using System.Numerics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using UserRegistrationSystem.Dto;
 using UserRegistrationSystem.Migrations;
 
@@ -48,12 +49,7 @@ namespace UserRegistrationSystem.DAL
             }
         }
 
-        //public PersonalInformation getPersonalInformationById(int accountId)
-        //{
-        //    var account = _context.Accounts.Include(b => b.PersonalInformation).ThenInclude(b => b.ResidentialAddress)
-        //        .FirstOrDefault(p => p.Id == accountId);
-        //    return account.PersonalInformation;
-        //}
+     
         public List<PersonalInformationDto> getPersonalInformationById(int personalInfoId)
         {
             return _context.PersonalInformation.Where(x => x.Id == personalInfoId).Select(x => new PersonalInformationDto
@@ -211,5 +207,22 @@ namespace UserRegistrationSystem.DAL
             _context.SaveChanges();
 
         }
+
+        public PersonalInformation GetAllInfoAboutCurrentUser(int currentUserId)
+        {
+            //var userFromDb = _context.Accounts.FirstOrDefault(p => p.Id == currentUserId);
+
+            var account = _context.Accounts.Include(b => b.PersonalInformation).ThenInclude(b => b.ResidentialAddress)
+                .FirstOrDefault(p => p.Id == currentUserId);
+            return account.PersonalInformation;
+
+        }
     }
+  
+    //public PersonalInformation getPersonalInformationById(int accountId)
+    //{
+    //    var account = _context.Accounts.Include(b => b.PersonalInformation).ThenInclude(b => b.ResidentialAddress)
+    //        .FirstOrDefault(p => p.Id == accountId);
+    //    return account.PersonalInformation;
+    //}
 }

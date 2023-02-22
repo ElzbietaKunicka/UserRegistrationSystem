@@ -78,5 +78,15 @@ namespace UserRegistrationSystem.Controllers
         {
             return _personalInformationList.GetUsersName();
         }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        [HttpGet("CurrentUserInfo")]
+        public PersonalInformation GetAllInfoAboutCurrentUser()
+        {
+            var userIdStr = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            var currentUserIdInt = int.Parse(userIdStr);
+            return _personalInformationList.GetAllInfoAboutCurrentUser(currentUserIdInt);
+        }
+        
     }
 }

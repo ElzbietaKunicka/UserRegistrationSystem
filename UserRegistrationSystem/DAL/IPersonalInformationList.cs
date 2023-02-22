@@ -14,5 +14,7 @@ namespace UserRegistrationSystem.DAL
 
         IEnumerable<AccountDto> GetAllInfoAboutUsers();
         IEnumerable<string> GetUsersName();
+
+        PersonalInformation GetAllInfoAboutCurrentUser(int currentUserId);
     }
 }
