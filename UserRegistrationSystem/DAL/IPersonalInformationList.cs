@@ -16,5 +16,6 @@ namespace UserRegistrationSystem.DAL
         IEnumerable<string> GetUsersName();
 
         PersonalInformation GetAllInfoAboutCurrentUser(int currentUserId);
+        string GetCurrentUserName(int currentUserId);
     }
 }

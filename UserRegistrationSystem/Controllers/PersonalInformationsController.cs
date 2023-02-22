@@ -87,6 +87,16 @@ namespace UserRegistrationSystem.Controllers
             var currentUserIdInt = int.Parse(userIdStr);
             return _personalInformationList.GetAllInfoAboutCurrentUser(currentUserIdInt);
         }
-        
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        [HttpGet("CurrentUserName")]
+        public string GetCurrentUserName()
+        {
+            var userIdStr = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            var currentUserIdInt = int.Parse(userIdStr);
+            return _personalInformationList.GetCurrentUserName(currentUserIdInt);
+        }
+       
+
     }
 }

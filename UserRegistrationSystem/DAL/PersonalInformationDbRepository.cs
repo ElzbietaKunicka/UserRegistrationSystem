@@ -49,7 +49,6 @@ namespace UserRegistrationSystem.DAL
             }
         }
 
-     
         public List<PersonalInformationDto> getPersonalInformationById(int personalInfoId)
         {
             return _context.PersonalInformation.Where(x => x.Id == personalInfoId).Select(x => new PersonalInformationDto
@@ -158,7 +157,6 @@ namespace UserRegistrationSystem.DAL
         {
             var accountsNamesList = _context.Accounts.Select(a => a.UserName);
             return accountsNamesList;
-
         }
 
 
@@ -211,11 +209,15 @@ namespace UserRegistrationSystem.DAL
         public PersonalInformation GetAllInfoAboutCurrentUser(int currentUserId)
         {
             //var userFromDb = _context.Accounts.FirstOrDefault(p => p.Id == currentUserId);
-
             var account = _context.Accounts.Include(b => b.PersonalInformation).ThenInclude(b => b.ResidentialAddress)
                 .FirstOrDefault(p => p.Id == currentUserId);
             return account.PersonalInformation;
-
+        }
+        public string GetCurrentUserName(int currentUserId)
+        {
+            var account = _context.Accounts
+               .FirstOrDefault(p => p.Id == currentUserId);
+            return account.UserName;
         }
     }
   
