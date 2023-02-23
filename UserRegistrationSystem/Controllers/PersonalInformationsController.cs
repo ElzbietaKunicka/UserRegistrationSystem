@@ -19,17 +19,14 @@ namespace UserRegistrationSystem.Controllers
         {
             _personalInformationList = personalInformationList;
         }
+
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
         [HttpPost]
         public void PostItem([FromBody]PersonalInformationDto personalInformationToAdd)
         {
             var userIdStr = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
             var currentUserIdInt = int.Parse(userIdStr);
-            
-           
-                _personalInformationList.AddNewPersonalInformation(currentUserIdInt, personalInformationToAdd);
-            
-           //_personalInformationList.AddNewPersonalInformation(currentUserIdInt, personalInformationToAdd);
+            _personalInformationList.AddNewPersonalInformation(currentUserIdInt, personalInformationToAdd);
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
@@ -40,20 +37,7 @@ namespace UserRegistrationSystem.Controllers
             var currentUserIdInt = int.Parse(userIdStr);
             _personalInformationList.UpdatePersonalInformation(currentUserIdInt, personalInformationToAdd);
         }
-        ////[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
-        //[HttpGet]
-        //public PersonalInformation GetPersonalInformationByIdI(int accountId)
-        //{
-        //    return _personalInformationList.getPersonalInformationById(accountId);
 
-        //}
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
-        [HttpGet] // want todo pagal accountId o ne pagal personal info
-        public List<PersonalInformationDto> GetPersonalInformationById(int personalInfoId)
-        {
-            return _personalInformationList.getPersonalInformationById(personalInfoId);
-            // selecta adr requestas and response...
-        }
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
         [HttpGet("PersonalInformationId")]
         public int? GetPersonalInformationIdByCurrentUserId()
@@ -64,17 +48,8 @@ namespace UserRegistrationSystem.Controllers
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
-        //[ProducesDefaultResponseType(typeof(AccountDto))]
-        [HttpGet("AllUsersInfo")]
-        public IEnumerable<AccountDto> GetAlLInfoAboutUsers()
-        {
-            //var userIdStr = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
-            //var currentUserIdInt = int.Parse(userIdStr);
-            return _personalInformationList.GetAllInfoAboutUsers();
-        }
-
         [HttpGet("AccountsNames")]
-        public IEnumerable<string> GetAlLUsersname()
+        public IEnumerable<string> GetAlLUsersNames()
         {
             return _personalInformationList.GetUsersName();
         }
@@ -96,7 +71,48 @@ namespace UserRegistrationSystem.Controllers
             var currentUserIdInt = int.Parse(userIdStr);
             return _personalInformationList.GetCurrentUserName(currentUserIdInt);
         }
-       
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        [HttpGet("InfoById")]
+        public AccountDto GetInformationByID(int id)
+        {
+            return _personalInformationList.getById(id);
+        }
+
+
+
+        ////[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        //[HttpGet]
+        //public PersonalInformation GetPersonalInformationByIdI(int accountId)
+        //{
+        //    return _personalInformationList.getPersonalInformationById(accountId);
+
+        //}
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        //[HttpGet] // want todo pagal accountId o ne pagal personal info
+        //public List<PersonalInformationDto> GetPersonalInformationById(int personalInfoId)
+        //{
+        //    return _personalInformationList.getPersonalInformationById(personalInfoId);
+        //    // selecta adr requestas and response...
+        //}
+
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        //[HttpGet("PersonalInformationByUserName")] 
+        //public IEnumerable<AccountDto> GetAccountsPersonalInformationByName(string accountsName)
+        //{
+        //    return _personalInformationList.getAccountsInformationByName(accountsName);
+        //}
+
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        ////[ProducesDefaultResponseType(typeof(AccountDto))]
+        //[HttpGet("AllUsersInfo")]
+        //public IEnumerable<AccountDto> GetAlLInfoAboutUsers()
+        //{
+        //    //var userIdStr = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+        //    //var currentUserIdInt = int.Parse(userIdStr);
+        //    return _personalInformationList.GetAllInfoAboutUsers();
+        //}
+
 
     }
 }

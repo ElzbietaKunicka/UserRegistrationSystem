@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Net;
 using System.Numerics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,20 +12,19 @@ namespace UserRegistrationSystem.DAL
     public class PersonalInformationDbRepository : IPersonalInformationList
     {
         private readonly AccountsListDbContext _context;
-        
-       
+
+
         //private int _lastId;
         public PersonalInformationDbRepository(AccountsListDbContext context)
         {
             _context = context;
         }
-        public void AddNewPersonalInformation(int currentUserId, 
+        public void AddNewPersonalInformation(int currentUserId,
             PersonalInformationDto personalInformationDto)
         {
-            //var userFromDb = _context.Accounts.Include(b => b.PersonalInformation).ThenInclude(b => b.ResidentialAddress).FirstOrDefault(p => p.Id== currentUserId);
             var userFromDb = _context.Accounts.FirstOrDefault(p => p.Id == currentUserId);
 
-            if(userFromDb.PersonalInformationId == null)
+            if (userFromDb.PersonalInformationId == null)
             {
                 userFromDb.PersonalInformation = new PersonalInformation
                 {
@@ -49,128 +49,17 @@ namespace UserRegistrationSystem.DAL
             }
         }
 
-        public List<PersonalInformationDto> getPersonalInformationById(int personalInfoId)
-        {
-            return _context.PersonalInformation.Where(x => x.Id == personalInfoId).Select(x => new PersonalInformationDto
-            {
-                Name = x.Name,
-                Surname = x.Surname,
-                PersonalCode = x.PersonalCode,
-                Phone = x.Phone,
-                Email = x.Email,
-                ResidentialAddress = new ResidentialAddressDto
-                {
-                    City = x.ResidentialAddress.City,
-                    Street = x.ResidentialAddress.Street,
-                    HomeNumber = x.ResidentialAddress.HomeNumber,
-                    ApartmentNumber = x.ResidentialAddress.ApartmentNumber,
-                }
-            }).ToList();
-        }
-        
-        public IEnumerable<AccountDto> GetAllInfoAboutUsers()
-        {
-            var accounts = _context.Accounts.Include(b => b.PersonalInformation).ThenInclude(b => b.ResidentialAddress).ToList();
-            List<AccountDto> accountDtosList = new List<AccountDto>();
-            foreach (var acc in accounts)
-            {
-                if (acc.PersonalInformation != null)
-                {
-                    //var humanInfo = acc.PersonalInformation;
-                    if (acc.PersonalInformation.ResidentialAddress != null)
-                    {
-                       // var address = acc.PersonalInformation.ResidentialAddress;
-                        var accountDto = new AccountDto
-                        {
-                            UserName= acc.UserName,
-                            PersonalInformation = new PersonalInformationDto
-                            {
-                                Name = acc.PersonalInformation.Name,
-                                Surname = acc.PersonalInformation.Surname,
-                                PersonalCode = acc.PersonalInformation.PersonalCode,
-                                Phone = acc.PersonalInformation.Phone,
-                                Email = acc.PersonalInformation.Email,
-                                ResidentialAddress = new ResidentialAddressDto
-                                {
-                                    City = acc.PersonalInformation.ResidentialAddress.City,
-                                    Street = acc.PersonalInformation.ResidentialAddress.Street,
-                                    HomeNumber = acc.PersonalInformation.ResidentialAddress.HomeNumber,
-                                    ApartmentNumber = acc.PersonalInformation.ResidentialAddress.ApartmentNumber
-                                }
-                            }
-                        };
-                        accountDtosList.Add(accountDto);
-                    }
-                    else
-                    {
-                        var accountDto = new AccountDto
-                        {
-                            UserName = acc.UserName,
-                            PersonalInformation = new PersonalInformationDto
-                            {
-                                Name = acc.PersonalInformation.Name,
-                                Surname = acc.PersonalInformation.Surname,
-                                PersonalCode = acc.PersonalInformation.PersonalCode,
-                                Phone = acc.PersonalInformation.Phone,
-                                Email = acc.PersonalInformation.Email,
-                                ResidentialAddress = null
-                            }
-                        };
-                        accountDtosList.Add(accountDto);
-                    }
-                }
-                else
-                {
-                    var accountDto = new AccountDto
-                    {
-                        UserName = acc.UserName,
-                       PersonalInformation = null
-                    };
-                    accountDtosList.Add(accountDto);
-                }
-            }
-            return accountDtosList;
-
-
-            //var newList = _context.Accounts.Select(x => new AccountDto()
-            //{
-            //    UserName = x.UserName,
-            //    PersonalInformation = new PersonalInformationDto
-            //    {
-            //        Name = x.PersonalInformation.Name,
-            //        Surname = x.PersonalInformation.Surname,
-            //        PersonalCode = x.PersonalInformation.PersonalCode,
-            //        Phone = x.PersonalInformation.Phone,
-            //        Email = x.PersonalInformation.Email,
-            //        ResidentialAddress = new ResidentialAddressDto
-            //        {
-            //            City = x.PersonalInformation.ResidentialAddress.City,
-            //            Street = x.PersonalInformation.ResidentialAddress.Street,
-            //            HomeNumber = x.PersonalInformation.ResidentialAddress.HomeNumber,
-            //            ApartmentNumber = x.PersonalInformation.ResidentialAddress.ApartmentNumber,
-            //        }
-            //    }
-            //});
-            //return newList;
-        }
+       
         public IEnumerable<string> GetUsersName()
         {
             var accountsNamesList = _context.Accounts.Select(a => a.UserName);
             return accountsNamesList;
         }
 
-
-        //var acc = _context.Accounts.SelectMany(u => u.PersonalInformation);
-        //var accounts = _context.Accounts.SelectMany(u => u.UserName);
-        //return accounts;
-        //return _context.Accounts.SelectMany(i => i.UserName);
-        //}
-
         public int? getPersonalInformationIdByCurrentUser(int currentUserId)
         {
             var userFromDb = _context.Accounts.FirstOrDefault(p => p.Id == currentUserId);
             return userFromDb.PersonalInformationId;
-
         }
         public void UpdatePersonalInformation(int currentUserId,
             PersonalInformationDto personalInformationDto)
@@ -178,16 +67,15 @@ namespace UserRegistrationSystem.DAL
             var userFromDb = _context.Accounts.Include(b => b.PersonalInformation)
                 .ThenInclude(b => b.ResidentialAddress)
                 .FirstOrDefault(p => p.Id == currentUserId);
-            //var userFromDb = _context.Accounts.FirstOrDefault(p => p.Id == currentUserId);
-            userFromDb.PersonalInformation.Name = 
+            userFromDb.PersonalInformation.Name =
                 personalInformationDto.Name.Trim();
-            userFromDb.PersonalInformation.Surname = 
+            userFromDb.PersonalInformation.Surname =
                 personalInformationDto.Surname.Trim();
-            userFromDb.PersonalInformation.PersonalCode = 
+            userFromDb.PersonalInformation.PersonalCode =
                 personalInformationDto.PersonalCode.Trim();
-            userFromDb.PersonalInformation.Phone = 
+            userFromDb.PersonalInformation.Phone =
                 personalInformationDto.Phone.Trim();
-            userFromDb.PersonalInformation.Email = 
+            userFromDb.PersonalInformation.Email =
                 personalInformationDto.Email.Trim();
 
             //if (userFromDb.PersonalInformation.ResidentialAddress == null)
@@ -208,23 +96,114 @@ namespace UserRegistrationSystem.DAL
 
         public PersonalInformation GetAllInfoAboutCurrentUser(int currentUserId)
         {
-            //var userFromDb = _context.Accounts.FirstOrDefault(p => p.Id == currentUserId);
-            var account = _context.Accounts.Include(b => b.PersonalInformation).ThenInclude(b => b.ResidentialAddress)
+            
+            var accountFromDb = _context.Accounts.Include(b => b.PersonalInformation).ThenInclude(b => b.ResidentialAddress)
                 .FirstOrDefault(p => p.Id == currentUserId);
-            return account.PersonalInformation;
+            return accountFromDb.PersonalInformation;
         }
         public string GetCurrentUserName(int currentUserId)
         {
-            var account = _context.Accounts
+            var accountFromDb = _context.Accounts
                .FirstOrDefault(p => p.Id == currentUserId);
-            return account.UserName;
+            return accountFromDb.UserName;
         }
+
+        public AccountDto getById(int accountId)
+        {
+            var accountFromDb = _context.Accounts
+                .Include(a => a.PersonalInformation)
+                .ThenInclude(p => p.ResidentialAddress)
+                .FirstOrDefault(a => a.Id == accountId);
+
+            if (accountFromDb == null)
+            {
+                return null;
+            }
+
+            var accountWithInfo = new AccountDto
+            {
+                UserName = accountFromDb.UserName,
+                
+            };
+            if (accountFromDb.PersonalInformation != null)
+            {
+                accountWithInfo.PersonalInformation = new PersonalInformationDto
+                {
+                    Name = accountFromDb.PersonalInformation.Name,
+                    Surname = accountFromDb.PersonalInformation.Surname,
+                    PersonalCode = accountFromDb.PersonalInformation.PersonalCode,
+                    Phone = accountFromDb.PersonalInformation.Phone,
+                    Email = accountFromDb.PersonalInformation.Email
+                };
+            }
+            else
+            {
+                accountWithInfo.PersonalInformation = null;
+            }
+            if (accountFromDb.PersonalInformation?.ResidentialAddress != null)
+            {
+                accountWithInfo.PersonalInformation.ResidentialAddress = new ResidentialAddressDto
+                {
+                    City = accountFromDb.PersonalInformation.ResidentialAddress.City,
+                    Street = accountFromDb.PersonalInformation.ResidentialAddress.Street,
+                    HomeNumber = accountFromDb.PersonalInformation.ResidentialAddress.HomeNumber,
+                    ApartmentNumber = accountFromDb.PersonalInformation.ResidentialAddress.ApartmentNumber
+                };
+            }
+            return accountWithInfo;
+        }
+
+        //public List<PersonalInformationDto> getPersonalInformationById(int personalInfoId)
+        //{
+        //    return _context.PersonalInformation.Where(x => x.Id == personalInfoId).Select(x => new PersonalInformationDto
+        //    {
+        //        Name = x.Name,
+        //        Surname = x.Surname,
+        //        PersonalCode = x.PersonalCode,
+        //        Phone = x.Phone,
+        //        Email = x.Email,
+        //        ResidentialAddress = new ResidentialAddressDto
+        //        {
+        //            City = x.ResidentialAddress.City,
+        //            Street = x.ResidentialAddress.Street,
+        //            HomeNumber = x.ResidentialAddress.HomeNumber,
+        //            ApartmentNumber = x.ResidentialAddress.ApartmentNumber,
+        //        }
+        //    }).ToList();
+        //}
+
+        //public IEnumerable<AccountDto> getAccountsInformationByName(string userName)
+        //{
+        //    return _context.Accounts.Where(x => x.UserName == userName).Select(x => new AccountDto
+        //    {
+        //        UserName = x.UserName,
+        //        PersonalInformation = new PersonalInformationDto
+        //        {
+        //            Name = x.PersonalInformation.Name,
+        //            Surname = x.PersonalInformation.Surname,
+        //            PersonalCode = x.PersonalInformation.PersonalCode,
+        //            Phone = x.PersonalInformation.Phone,
+        //            Email = x.PersonalInformation.Email,
+        //            ResidentialAddress = new ResidentialAddressDto
+        //            {
+        //                City = x.PersonalInformation.ResidentialAddress.City,
+        //                Street = x.PersonalInformation.ResidentialAddress.Street,
+        //                HomeNumber = x.PersonalInformation.ResidentialAddress.HomeNumber,
+        //                ApartmentNumber = x.PersonalInformation.ResidentialAddress.ApartmentNumber,
+        //            }
+        //        }
+        //    }).ToList();
+        //}
+
+
+
+
     }
-  
-    //public PersonalInformation getPersonalInformationById(int accountId)
-    //{
-    //    var account = _context.Accounts.Include(b => b.PersonalInformation).ThenInclude(b => b.ResidentialAddress)
-    //        .FirstOrDefault(p => p.Id == accountId);
-    //    return account.PersonalInformation;
-    //}
 }
+         
+
+    
+       
+
+
+
