@@ -73,11 +73,13 @@ namespace UserRegistrationSystem.Controllers
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
-        [HttpGet("InfoById")]
-        public AccountDto GetInformationByID(int id)
+        [HttpGet("userid={userid}")]
+        public AccountDto GetInformationByID(int userid)
         {
-            return _personalInformationList.getById(id);
+            return _personalInformationList.getById(userid);
         }
+
+
 
 
 
