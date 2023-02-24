@@ -56,6 +56,16 @@ namespace UserRegistrationSystem.DAL
             return accountsNamesList;
         }
 
+        public IEnumerable<AccountDto> GetUsersIdAndUsernames()
+        {
+            var accounts = _context.Accounts.Select(account => new AccountDto
+            { 
+                Id= account.Id,
+                UserName= account.UserName,
+            });
+            return accounts;
+        }
+
         public int? getPersonalInformationIdByCurrentUser(int currentUserId)
         {
             var userFromDb = _context.Accounts.FirstOrDefault(p => p.Id == currentUserId);
@@ -136,10 +146,7 @@ namespace UserRegistrationSystem.DAL
                     Email = accountFromDb.PersonalInformation.Email
                 };
             }
-            else
-            {
-                accountWithInfo.PersonalInformation = null;
-            }
+           
             if (accountFromDb.PersonalInformation?.ResidentialAddress != null)
             {
                 accountWithInfo.PersonalInformation.ResidentialAddress = new ResidentialAddressDto

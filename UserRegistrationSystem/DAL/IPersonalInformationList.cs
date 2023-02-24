@@ -16,5 +16,6 @@ namespace UserRegistrationSystem.DAL
         //IEnumerable<AccountDto> getAccountsInformationByName(string userName);
         //PersonalInformation getPersonalInformationById(int accountId);
         //List<PersonalInformationDto> getPersonalInformationById(int id);
+        IEnumerable<AccountDto> GetUsersIdAndUsernames();
     }
 }

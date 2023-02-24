@@ -22,7 +22,7 @@ namespace UserRegistrationSystem.Controllers
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
         [HttpPost]
-        public void PostItem([FromBody]PersonalInformationDto personalInformationToAdd)
+        public void PostItem([FromBody] PersonalInformationDto personalInformationToAdd)
         {
             var userIdStr = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
             var currentUserIdInt = int.Parse(userIdStr);
@@ -31,7 +31,7 @@ namespace UserRegistrationSystem.Controllers
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
         [HttpPut]
-        public void UpdateItem([FromBody]PersonalInformationDto personalInformationToAdd)
+        public void UpdateItem([FromBody] PersonalInformationDto personalInformationToAdd)
         {
             var userIdStr = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
             var currentUserIdInt = int.Parse(userIdStr);
@@ -53,6 +53,13 @@ namespace UserRegistrationSystem.Controllers
         {
             return _personalInformationList.GetUsersName();
         }
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        [HttpGet("AccountsIdAndUsernames")]
+        public IEnumerable<AccountDto> GetUsersIdAndUsernames()
+        {
+            return _personalInformationList.GetUsersIdAndUsernames();
+        }
+        
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
         [HttpGet("CurrentUserInfo")]
@@ -72,11 +79,16 @@ namespace UserRegistrationSystem.Controllers
             return _personalInformationList.GetCurrentUserName(currentUserIdInt);
         }
 
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
-        [HttpGet("userid={userid}")]
-        public AccountDto GetInformationByID(int userid)
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        [HttpGet("GetById/{id?}")]
+        public AccountDto GetInformationByID(int id)
         {
-            return _personalInformationList.getById(userid);
+            //var acc = _personalInformationList.getById(id);
+            return _personalInformationList.getById(id);
+            //if(acc != null)
+            //{
+            //    return StatusCode(StatusCodes.Status200OK, acc);
+            //}
         }
 
 
