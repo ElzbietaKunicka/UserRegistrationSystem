@@ -13,8 +13,6 @@ namespace UserRegistrationSystem.DAL
     {
         private readonly AccountsListDbContext _context;
 
-
-        //private int _lastId;
         public PersonalInformationDbRepository(AccountsListDbContext context)
         {
             _context = context;
@@ -47,13 +45,6 @@ namespace UserRegistrationSystem.DAL
             {
                 throw new Exception("Jau uzpildyta informacija, galite tik update");
             }
-        }
-
-       
-        public IEnumerable<string> GetUsersName()
-        {
-            var accountsNamesList = _context.Accounts.Select(a => a.UserName);
-            return accountsNamesList;
         }
 
         public IEnumerable<AccountDto> GetUsersIdAndUsernames()
@@ -101,12 +92,10 @@ namespace UserRegistrationSystem.DAL
             userFromDb.PersonalInformation.ResidentialAddress.ApartmentNumber =
                 personalInformationDto.ResidentialAddress.ApartmentNumber;
             _context.SaveChanges();
-
         }
 
         public PersonalInformation GetAllInfoAboutCurrentUser(int currentUserId)
         {
-            
             var accountFromDb = _context.Accounts.Include(b => b.PersonalInformation).ThenInclude(b => b.ResidentialAddress)
                 .FirstOrDefault(p => p.Id == currentUserId);
             return accountFromDb.PersonalInformation;
@@ -200,6 +189,12 @@ namespace UserRegistrationSystem.DAL
         //            }
         //        }
         //    }).ToList();
+        //}
+
+        //public IEnumerable<string> GetUsersName()
+        //{
+        //    var accountsNamesList = _context.Accounts.Select(a => a.UserName);
+        //    return accountsNamesList;
         //}
 
 

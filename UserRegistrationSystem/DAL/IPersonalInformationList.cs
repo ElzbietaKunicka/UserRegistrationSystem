@@ -7,7 +7,6 @@ namespace UserRegistrationSystem.DAL
         void UpdatePersonalInformation(int currentUserId, PersonalInformationDto personalInformationDto);
         void AddNewPersonalInformation(int currentUserId, PersonalInformationDto personalInformationDto);
         int? getPersonalInformationIdByCurrentUser(int currentUserId);
-        IEnumerable<string> GetUsersName();
         PersonalInformation GetAllInfoAboutCurrentUser(int currentUserId);
         string GetCurrentUserName(int currentUserId);
         AccountDto getById(int accountId);
@@ -16,6 +15,7 @@ namespace UserRegistrationSystem.DAL
         //IEnumerable<AccountDto> getAccountsInformationByName(string userName);
         //PersonalInformation getPersonalInformationById(int accountId);
         //List<PersonalInformationDto> getPersonalInformationById(int id);
+        //IEnumerable<string> GetUsersName();
         IEnumerable<AccountDto> GetUsersIdAndUsernames();
     }
 }

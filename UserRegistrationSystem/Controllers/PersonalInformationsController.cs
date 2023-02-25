@@ -48,12 +48,6 @@ namespace UserRegistrationSystem.Controllers
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
-        [HttpGet("AccountsNames")]
-        public IEnumerable<string> GetAlLUsersNames()
-        {
-            return _personalInformationList.GetUsersName();
-        }
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
         [HttpGet("AccountsIdAndUsernames")]
         public IEnumerable<AccountDto> GetUsersIdAndUsernames()
         {
@@ -83,17 +77,8 @@ namespace UserRegistrationSystem.Controllers
         [HttpGet("GetById/{id?}")]
         public AccountDto GetInformationByID(int id)
         {
-            //var acc = _personalInformationList.getById(id);
             return _personalInformationList.getById(id);
-            //if(acc != null)
-            //{
-            //    return StatusCode(StatusCodes.Status200OK, acc);
-            //}
         }
-
-
-
-
 
         ////[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
         //[HttpGet]
@@ -125,6 +110,13 @@ namespace UserRegistrationSystem.Controllers
         //    //var userIdStr = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
         //    //var currentUserIdInt = int.Parse(userIdStr);
         //    return _personalInformationList.GetAllInfoAboutUsers();
+        //}
+
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        //[HttpGet("AccountsNames")]
+        //public IEnumerable<string> GetAlLUsersNames()
+        //{
+        //    return _personalInformationList.GetUsersName();
         //}
 
 
