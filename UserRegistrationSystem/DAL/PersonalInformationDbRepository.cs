@@ -160,6 +160,16 @@ namespace UserRegistrationSystem.DAL
             return accountWithInfo;
         }
 
+        public void DeleteAccountById(int id)
+        {
+            /// trinam kiekviena atskirai
+            var acc = _context.Accounts.Include(p => p.PersonalInformation).ThenInclude(p => p.ResidentialAddress).FirstOrDefault(a => a.Id == id);
+            _context.ResidentialAddresses.RemoveRange(acc.PersonalInformation.ResidentialAddress);
+            _context.PersonalInformation.RemoveRange(acc.PersonalInformation);
+            _context.Accounts.Remove(acc);
+            _context.SaveChanges();
+        }
+
         //public List<PersonalInformationDto> getPersonalInformationById(int personalInfoId)
         //{
         //    return _context.PersonalInformation.Where(x => x.Id == personalInfoId).Select(x => new PersonalInformationDto

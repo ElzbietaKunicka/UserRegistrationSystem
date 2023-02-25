@@ -20,7 +20,7 @@ namespace UserRegistrationSystem.Controllers
             _personalInformationList = personalInformationList;
         }
 
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
         [HttpPost]
         public void PostItem([FromBody] PersonalInformationDto personalInformationToAdd)
         {
@@ -30,7 +30,7 @@ namespace UserRegistrationSystem.Controllers
             _personalInformationList.AddNewPersonalInformation(currentUserIdInt, personalInformationToAdd);
         }
 
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
         [HttpPut]
         public void UpdateItem([FromBody] PersonalInformationDto personalInformationToAdd)
         {
@@ -39,7 +39,7 @@ namespace UserRegistrationSystem.Controllers
             _personalInformationList.UpdatePersonalInformation(currentUserIdInt, personalInformationToAdd);
         }
 
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
         [HttpGet("PersonalInformationId")]
         public int? GetPersonalInformationIdByCurrentUserId()
         {
@@ -48,7 +48,7 @@ namespace UserRegistrationSystem.Controllers
             return _personalInformationList.getPersonalInformationIdByCurrentUser(currentUserIdInt);
         }
 
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
         [HttpGet("AccountsIdAndUsernames")]
         public IEnumerable<AccountDto> GetUsersIdAndUsernames()
         {
@@ -56,7 +56,7 @@ namespace UserRegistrationSystem.Controllers
         }
         
 
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
         [HttpGet("CurrentUserInfo")]
         public PersonalInformation GetAllInfoAboutCurrentUser()
         {
@@ -65,7 +65,7 @@ namespace UserRegistrationSystem.Controllers
             return _personalInformationList.GetAllInfoAboutCurrentUser(currentUserIdInt);
         }
 
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
         [HttpGet("CurrentUserName")]
         public string GetCurrentUserName()
         {
@@ -74,11 +74,18 @@ namespace UserRegistrationSystem.Controllers
             return _personalInformationList.GetCurrentUserName(currentUserIdInt);
         }
 
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
         [HttpGet("GetById/{id?}")]
         public AccountDto GetInformationByID(int id)
         {
             return _personalInformationList.getById(id);
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+            _personalInformationList.DeleteAccountById(id);
         }
 
         ////[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]

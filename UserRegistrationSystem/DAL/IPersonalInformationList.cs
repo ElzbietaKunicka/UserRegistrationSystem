@@ -10,6 +10,7 @@ namespace UserRegistrationSystem.DAL
         PersonalInformation GetAllInfoAboutCurrentUser(int currentUserId);
         string GetCurrentUserName(int currentUserId);
         AccountDto getById(int accountId);
+        void DeleteAccountById(int id);
         //List<Account> GetAllUsersAccount(AccountDto accDto);
         //IEnumerable<AccountDto> GetAllInfoAboutUsers();
         //IEnumerable<AccountDto> getAccountsInformationByName(string userName);
