@@ -15,6 +15,13 @@ public class AccountsListDbContext : DbContext
     {
 
     }
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        builder.Entity<Account>()
+            .HasIndex(a => a.UserName)
+            .IsUnique();
+    }
 }
 
 

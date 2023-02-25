@@ -22,10 +22,26 @@ namespace UserRegistrationSystem.Controllers
         [HttpPost("SignUp")]
         public ActionResult Signup([FromBody] AuthRequestDto request)
         {
-            _accountService.SignupNewAccount(request.UserName, request.Password);
-            // return ok();
-           
-            return Content($"{request.UserName}");
+            try
+            {
+                if(request.UserName.Length > 25 || request.UserName.Length < 3) 
+                {
+                    return BadRequest("UserName cannot be greater than 25 or be less than 3");
+                }
+                if (request.Password.Length < 3)
+                {
+                    return BadRequest("Password cannot be greater than 50 or be less than 3");
+                }
+                _accountService.SignupNewAccount(request.UserName, request.Password);
+                // return ok();
+                return Content($"{request.UserName}");
+            }
+            catch (Exception ex) 
+            {
+                return BadRequest("A user with this username already exists.");
+                
+            }
+          
             
         }
 

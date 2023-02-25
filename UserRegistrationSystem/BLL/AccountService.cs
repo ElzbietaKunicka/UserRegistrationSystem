@@ -33,8 +33,18 @@ namespace UserRegistrationSystem.BLL
         public Account SignupNewAccount(string username, string password)
         {
             var account = CreateAccount(username, password);
-            _accountRepository.SaveAccount(account);
-            return account;
+            if (_accountRepository.GetAccount(username) == null){
+                
+                _accountRepository.SaveAccount(account);
+                return account;
+            }
+            else
+            {
+                throw new Exception("A user with this username already exists");
+            }
+            //var account = CreateAccount(username, password);
+            //_accountRepository.SaveAccount(account);
+            //return account;
         }
         private Account CreateAccount(string username, string password)
         {
