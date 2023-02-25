@@ -17,6 +17,11 @@ namespace UserRegistrationSystem.DAL
         {
             _context = context;
         }
+        public static bool check(string str)
+        {
+            return (String.IsNullOrEmpty(str) ||
+                  str.Trim().Length == 0) ? true : false;
+        }
         public void AddNewPersonalInformation(int currentUserId,
             PersonalInformationDto personalInformationDto)
         {
@@ -24,8 +29,14 @@ namespace UserRegistrationSystem.DAL
 
             if (userFromDb.PersonalInformationId == null)
             {
+                if (false)
+                {
+                    //bool namecheck = check(personalInformationDto.Name);
+                    bool codecheck = check(personalInformationDto.PersonalCode);
+                }
                 userFromDb.PersonalInformation = new PersonalInformation
                 {
+                   
                     Name = personalInformationDto.Name.Trim(),
                     Surname = personalInformationDto.Surname.Trim(),
                     PersonalCode = personalInformationDto.PersonalCode.Trim(),

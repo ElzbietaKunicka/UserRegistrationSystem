@@ -9,7 +9,6 @@ namespace UserRegistrationSystem
         public int Id { get; set; }
         public string Name { get; set; }
         public  string Surname { get; set; }
-        //[StringLength(11)] ir is naujo sukurti Migracija
         public string PersonalCode { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }

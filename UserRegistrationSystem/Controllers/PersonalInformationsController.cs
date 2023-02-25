@@ -26,6 +26,7 @@ namespace UserRegistrationSystem.Controllers
         {
             var userIdStr = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
             var currentUserIdInt = int.Parse(userIdStr);
+            
             _personalInformationList.AddNewPersonalInformation(currentUserIdInt, personalInformationToAdd);
         }
 
@@ -73,7 +74,7 @@ namespace UserRegistrationSystem.Controllers
             return _personalInformationList.GetCurrentUserName(currentUserIdInt);
         }
 
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
         [HttpGet("GetById/{id?}")]
         public AccountDto GetInformationByID(int id)
         {

@@ -26,11 +26,11 @@ namespace UserRegistrationSystem.Controllers
             {
                 if(request.UserName.Length > 25 || request.UserName.Length < 3) 
                 {
-                    return BadRequest("UserName cannot be greater than 25 or be less than 3");
+                    return BadRequest("UserName cannot be greater than 25 or less than 3");
                 }
                 if (request.Password.Length < 3)
                 {
-                    return BadRequest("Password cannot be greater than 50 or be less than 3");
+                    return BadRequest("Password cannot be greater than 50 or less than 3");
                 }
                 _accountService.SignupNewAccount(request.UserName, request.Password);
                 // return ok();
@@ -39,10 +39,7 @@ namespace UserRegistrationSystem.Controllers
             catch (Exception ex) 
             {
                 return BadRequest("A user with this username already exists.");
-                
             }
-          
-            
         }
 
         [HttpPost("Login")]
