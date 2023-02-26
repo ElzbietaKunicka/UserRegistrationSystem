@@ -29,14 +29,13 @@ namespace UserRegistrationSystem.DAL
 
             if (userFromDb.PersonalInformationId == null)
             {
-                if (false)
-                {
-                    //bool namecheck = check(personalInformationDto.Name);
-                    bool codecheck = check(personalInformationDto.PersonalCode);
-                }
+                //if (false)
+                //{
+                //    //bool namecheck = check(personalInformationDto.Name);
+                //    bool codecheck = check(personalInformationDto.PersonalCode);
+                //}
                 userFromDb.PersonalInformation = new PersonalInformation
                 {
-                   
                     Name = personalInformationDto.Name.Trim(),
                     Surname = personalInformationDto.Surname.Trim(),
                     PersonalCode = personalInformationDto.PersonalCode.Trim(),
@@ -90,10 +89,7 @@ namespace UserRegistrationSystem.DAL
             userFromDb.PersonalInformation.Email =
                 personalInformationDto.Email.Trim();
 
-            //if (userFromDb.PersonalInformation.ResidentialAddress == null)
-            //{
-            //    userFromDb.PersonalInformation.ResidentialAddress = new ResidentialAddress();
-            //}
+
             userFromDb.PersonalInformation.ResidentialAddress.City =
                 personalInformationDto.ResidentialAddress.City.Trim();
             userFromDb.PersonalInformation.ResidentialAddress.Street =
@@ -133,30 +129,47 @@ namespace UserRegistrationSystem.DAL
             var accountWithInfo = new AccountDto
             {
                 UserName = accountFromDb.UserName,
-                
             };
             if (accountFromDb.PersonalInformation != null)
             {
-                accountWithInfo.PersonalInformation = new PersonalInformationDto
+                accountWithInfo.PersonalInformation = new
+                    PersonalInformationDto
                 {
                     Name = accountFromDb.PersonalInformation.Name,
                     Surname = accountFromDb.PersonalInformation.Surname,
                     PersonalCode = accountFromDb.PersonalInformation.PersonalCode,
                     Phone = accountFromDb.PersonalInformation.Phone,
-                    Email = accountFromDb.PersonalInformation.Email
+                    Email = accountFromDb.PersonalInformation.Email,
+                    ResidentialAddress = new
+                    ResidentialAddressDto
+                    {
+                        City = accountFromDb.PersonalInformation.
+                    ResidentialAddress.City,
+                        Street = accountFromDb.PersonalInformation.
+                    ResidentialAddress.Street,
+                        HomeNumber = accountFromDb.PersonalInformation.
+                    ResidentialAddress.HomeNumber,
+                        ApartmentNumber = accountFromDb.PersonalInformation.
+                    ResidentialAddress.ApartmentNumber
+                    }
                 };
             }
-           
-            if (accountFromDb.PersonalInformation?.ResidentialAddress != null)
-            {
-                accountWithInfo.PersonalInformation.ResidentialAddress = new ResidentialAddressDto
-                {
-                    City = accountFromDb.PersonalInformation.ResidentialAddress.City,
-                    Street = accountFromDb.PersonalInformation.ResidentialAddress.Street,
-                    HomeNumber = accountFromDb.PersonalInformation.ResidentialAddress.HomeNumber,
-                    ApartmentNumber = accountFromDb.PersonalInformation.ResidentialAddress.ApartmentNumber
-                };
-            }
+           /// nereikia nes yra not nullable
+            //if (accountFromDb.PersonalInformation?.ResidentialAddress != null)
+            //{
+            //    accountWithInfo.PersonalInformation.ResidentialAddress = new 
+            //        ResidentialAddressDto
+            //    {
+            //        City = accountFromDb.PersonalInformation.
+            //        ResidentialAddress.City,
+            //        Street = accountFromDb.PersonalInformation.
+            //        ResidentialAddress.Street,
+            //        HomeNumber = accountFromDb.PersonalInformation.
+            //        ResidentialAddress.HomeNumber,
+            //        ApartmentNumber = accountFromDb.PersonalInformation.
+            //        ResidentialAddress.ApartmentNumber
+            //    };
+            //}
             return accountWithInfo;
         }
 

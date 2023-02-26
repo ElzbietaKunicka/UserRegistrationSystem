@@ -78,6 +78,7 @@ namespace UserRegistrationSystem.Controllers
         [HttpGet("GetById/{id?}")]
         public AccountDto GetInformationByID(int id)
         {
+
             return _personalInformationList.getById(id);
         }
 
