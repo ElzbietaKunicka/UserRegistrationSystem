@@ -17,11 +17,6 @@ namespace UserRegistrationSystem.DAL
         {
             _context = context;
         }
-        public static bool check(string str)
-        {
-            return (String.IsNullOrEmpty(str) ||
-                  str.Trim().Length == 0) ? true : false;
-        }
         public void AddNewPersonalInformation(int currentUserId,
             PersonalInformationDto personalInformationDto)
         {
@@ -29,11 +24,7 @@ namespace UserRegistrationSystem.DAL
 
             if (userFromDb.PersonalInformationId == null)
             {
-                //if (false)
-                //{
-                //    //bool namecheck = check(personalInformationDto.Name);
-                //    bool codecheck = check(personalInformationDto.PersonalCode);
-                //}
+
                 userFromDb.PersonalInformation = new PersonalInformation
                 {
                     Name = personalInformationDto.Name.Trim(),
@@ -53,7 +44,7 @@ namespace UserRegistrationSystem.DAL
             }
             else
             {
-                throw new Exception("Jau uzpildyta informacija, galite tik update");
+                throw new Exception("The information was filled, now you can only update");
             }
         }
 
@@ -88,7 +79,6 @@ namespace UserRegistrationSystem.DAL
                 personalInformationDto.Phone.Trim();
             userFromDb.PersonalInformation.Email =
                 personalInformationDto.Email.Trim();
-
 
             userFromDb.PersonalInformation.ResidentialAddress.City =
                 personalInformationDto.ResidentialAddress.City.Trim();
@@ -128,6 +118,7 @@ namespace UserRegistrationSystem.DAL
 
             var accountWithInfo = new AccountDto
             {
+                Id = accountFromDb.Id,
                 UserName = accountFromDb.UserName,
             };
             if (accountFromDb.PersonalInformation != null)
@@ -154,86 +145,28 @@ namespace UserRegistrationSystem.DAL
                     }
                 };
             }
-           /// nereikia nes yra not nullable
-            //if (accountFromDb.PersonalInformation?.ResidentialAddress != null)
-            //{
-            //    accountWithInfo.PersonalInformation.ResidentialAddress = new 
-            //        ResidentialAddressDto
-            //    {
-            //        City = accountFromDb.PersonalInformation.
-            //        ResidentialAddress.City,
-            //        Street = accountFromDb.PersonalInformation.
-            //        ResidentialAddress.Street,
-            //        HomeNumber = accountFromDb.PersonalInformation.
-            //        ResidentialAddress.HomeNumber,
-            //        ApartmentNumber = accountFromDb.PersonalInformation.
-            //        ResidentialAddress.ApartmentNumber
-            //    };
-            //}
             return accountWithInfo;
         }
 
         public void DeleteAccountById(int id)
         {
-            /// trinam kiekviena atskirai
-            var acc = _context.Accounts.Include(p => p.PersonalInformation).ThenInclude(p => p.ResidentialAddress).FirstOrDefault(a => a.Id == id);
-            _context.ResidentialAddresses.RemoveRange(acc.PersonalInformation.ResidentialAddress);
-            _context.PersonalInformation.RemoveRange(acc.PersonalInformation);
-            _context.Accounts.Remove(acc);
+            var accountFromDb = _context.Accounts.Include(p => p.PersonalInformation).ThenInclude(p => p.ResidentialAddress).FirstOrDefault(a => a.Id == id);
+            var accountFromDbWithoutInfo = _context.Accounts.FirstOrDefault(p => p.Id == id);
+            if (accountFromDb == null)
+            {
+               return;
+            }
+            if (accountFromDbWithoutInfo.PersonalInformationId == null)
+            {
+                _context.Accounts.Remove(accountFromDbWithoutInfo);
+                _context.SaveChanges();
+                return;
+            }
+            _context.ResidentialAddresses.RemoveRange(accountFromDb.PersonalInformation.ResidentialAddress);
+            _context.PersonalInformation.RemoveRange(accountFromDb.PersonalInformation);
+            _context.Accounts.Remove(accountFromDb);
             _context.SaveChanges();
         }
-
-        //public List<PersonalInformationDto> getPersonalInformationById(int personalInfoId)
-        //{
-        //    return _context.PersonalInformation.Where(x => x.Id == personalInfoId).Select(x => new PersonalInformationDto
-        //    {
-        //        Name = x.Name,
-        //        Surname = x.Surname,
-        //        PersonalCode = x.PersonalCode,
-        //        Phone = x.Phone,
-        //        Email = x.Email,
-        //        ResidentialAddress = new ResidentialAddressDto
-        //        {
-        //            City = x.ResidentialAddress.City,
-        //            Street = x.ResidentialAddress.Street,
-        //            HomeNumber = x.ResidentialAddress.HomeNumber,
-        //            ApartmentNumber = x.ResidentialAddress.ApartmentNumber,
-        //        }
-        //    }).ToList();
-        //}
-
-        //public IEnumerable<AccountDto> getAccountsInformationByName(string userName)
-        //{
-        //    return _context.Accounts.Where(x => x.UserName == userName).Select(x => new AccountDto
-        //    {
-        //        UserName = x.UserName,
-        //        PersonalInformation = new PersonalInformationDto
-        //        {
-        //            Name = x.PersonalInformation.Name,
-        //            Surname = x.PersonalInformation.Surname,
-        //            PersonalCode = x.PersonalInformation.PersonalCode,
-        //            Phone = x.PersonalInformation.Phone,
-        //            Email = x.PersonalInformation.Email,
-        //            ResidentialAddress = new ResidentialAddressDto
-        //            {
-        //                City = x.PersonalInformation.ResidentialAddress.City,
-        //                Street = x.PersonalInformation.ResidentialAddress.Street,
-        //                HomeNumber = x.PersonalInformation.ResidentialAddress.HomeNumber,
-        //                ApartmentNumber = x.PersonalInformation.ResidentialAddress.ApartmentNumber,
-        //            }
-        //        }
-        //    }).ToList();
-        //}
-
-        //public IEnumerable<string> GetUsersName()
-        //{
-        //    var accountsNamesList = _context.Accounts.Select(a => a.UserName);
-        //    return accountsNamesList;
-        //}
-
-
-
-
     }
 }
          

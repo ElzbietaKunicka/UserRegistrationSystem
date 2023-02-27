@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.IIS.Core;
 using UserRegistrationSystem.DAL;
 using UserRegistrationSystem.Dto;
 
@@ -74,12 +75,23 @@ namespace UserRegistrationSystem.Controllers
             return _personalInformationList.GetCurrentUserName(currentUserIdInt);
         }
 
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
+        //[HttpGet("GetById/{id?}")]
+        //public AccountDto GetInformationByID(int id)
+        //{
+        //    return _personalInformationList.getById(id);
+
+        //}
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
         [HttpGet("GetById/{id?}")]
-        public AccountDto GetInformationByID(int id)
+        public ActionResult GetInformationByID(int id)
         {
-
-            return _personalInformationList.getById(id);
+            var userInfoById = _personalInformationList.getById(id);
+            if (userInfoById == null)
+            {
+                return Content("Account ID does not exist");
+            }
+            return Ok(userInfoById);
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
