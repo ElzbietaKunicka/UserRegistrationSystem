@@ -23,12 +23,19 @@ namespace UserRegistrationSystem.Controllers
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
         [HttpPost]
-        public void PostItem([FromBody] PersonalInformationDto personalInformationToAdd)
+        public ActionResult PostItem([FromBody] PersonalInformationDto personalInformationToAdd)
         {
             var userIdStr = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
             var currentUserIdInt = int.Parse(userIdStr);
-            
-            _personalInformationList.AddNewPersonalInformation(currentUserIdInt, personalInformationToAdd);
+            if (ModelState.IsValid)
+            {
+                _personalInformationList.AddNewPersonalInformation(currentUserIdInt, personalInformationToAdd);
+                return Ok();
+            }
+            return BadRequest(ModelState);
+           
+            //_personalInformationList.AddNewPersonalInformation(currentUserIdInt, personalInformationToAdd);
+
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]

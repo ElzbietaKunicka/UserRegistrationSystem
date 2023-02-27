@@ -1,4 +1,5 @@
-﻿using UserRegistrationSystem.Dto;
+﻿using Microsoft.AspNetCore.Mvc;
+using UserRegistrationSystem.Dto;
 
 namespace UserRegistrationSystem.DAL
 {
