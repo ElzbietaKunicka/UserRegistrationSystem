@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using UserRegistrationSystem.Dto;
 using UserRegistrationSystem.Migrations;
+using UserRegistrationSystem.Models;
 
 namespace UserRegistrationSystem.DAL
 {
@@ -90,7 +91,6 @@ namespace UserRegistrationSystem.DAL
                 personalInformationDto.ResidentialAddress.ApartmentNumber;
             _context.SaveChanges();
         }
-
         public PersonalInformation GetAllInfoAboutCurrentUser(int currentUserId)
         {
             var accountFromDb = _context.Accounts.Include(b => b.PersonalInformation).ThenInclude(b => b.ResidentialAddress)

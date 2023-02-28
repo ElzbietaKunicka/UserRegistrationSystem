@@ -2,6 +2,7 @@
 using System.Text;
 using UserRegistrationSystem.DAL;
 using UserRegistrationSystem.Dto;
+using UserRegistrationSystem.Models;
 
 namespace UserRegistrationSystem.BLL
 {
@@ -42,9 +43,6 @@ namespace UserRegistrationSystem.BLL
             {
                 throw new Exception("A user with this username already exists");
             }
-            //var account = CreateAccount(username, password);
-            //_accountRepository.SaveAccount(account);
-            //return account;
         }
         private Account CreateAccount(string username, string password)
         {

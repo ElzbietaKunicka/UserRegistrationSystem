@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.IIS.Core;
 using UserRegistrationSystem.DAL;
 using UserRegistrationSystem.Dto;
+using UserRegistrationSystem.Models;
 
 namespace UserRegistrationSystem.Controllers
 {
@@ -82,13 +83,6 @@ namespace UserRegistrationSystem.Controllers
             return _personalInformationList.GetCurrentUserName(currentUserIdInt);
         }
 
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
-        //[HttpGet("GetById/{id?}")]
-        //public AccountDto GetInformationByID(int id)
-        //{
-        //    return _personalInformationList.getById(id);
-
-        //}
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
         [HttpGet("GetById/{id?}")]
         public ActionResult GetInformationByID(int id)
@@ -101,7 +95,7 @@ namespace UserRegistrationSystem.Controllers
             return Ok(userInfoById);
         }
 
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

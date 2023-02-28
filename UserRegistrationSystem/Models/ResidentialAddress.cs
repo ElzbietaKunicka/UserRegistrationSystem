@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace UserRegistrationSystem
+namespace UserRegistrationSystem.Models
 {
     public class ResidentialAddress
     {
-        [Key]   
+        [Key]
         public int Id { get; set; }
         public string City { get; set; }
         public string Street { get; set; }

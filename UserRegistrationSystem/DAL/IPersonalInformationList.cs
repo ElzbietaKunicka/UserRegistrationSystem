@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using UserRegistrationSystem.Dto;
+using UserRegistrationSystem.Models;
 
 namespace UserRegistrationSystem.DAL
 {
@@ -12,12 +13,6 @@ namespace UserRegistrationSystem.DAL
         string GetCurrentUserName(int currentUserId);
         AccountDto getById(int accountId);
         void DeleteAccountById(int id);
-        //List<Account> GetAllUsersAccount(AccountDto accDto);
-        //IEnumerable<AccountDto> GetAllInfoAboutUsers();
-        //IEnumerable<AccountDto> getAccountsInformationByName(string userName);
-        //PersonalInformation getPersonalInformationById(int accountId);
-        //List<PersonalInformationDto> getPersonalInformationById(int id);
-        //IEnumerable<string> GetUsersName();
         IEnumerable<AccountDto> GetUsersIdAndUsernames();
     }
 }

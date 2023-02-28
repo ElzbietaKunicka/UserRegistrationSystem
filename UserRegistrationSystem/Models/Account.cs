@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using System.Drawing;
 
-namespace UserRegistrationSystem
+namespace UserRegistrationSystem.Models
 {
     [Index(nameof(UserName), IsUnique = true)]
     public class Account

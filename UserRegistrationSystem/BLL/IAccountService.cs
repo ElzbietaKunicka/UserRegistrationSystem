@@ -1,4 +1,5 @@
 ﻿using UserRegistrationSystem.Dto;
+using UserRegistrationSystem.Models;
 
 namespace UserRegistrationSystem.BLL
 {

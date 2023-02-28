@@ -1,4 +1,6 @@
-﻿namespace UserRegistrationSystem.DAL
+﻿using UserRegistrationSystem.Models;
+
+namespace UserRegistrationSystem.DAL
 {
     public class AccountRepository : IAccountRepository
     {

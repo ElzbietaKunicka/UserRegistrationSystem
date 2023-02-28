@@ -5,6 +5,7 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using UserRegistrationSystem.BLL;
 using UserRegistrationSystem.DAL;
+using UserRegistrationSystem.Models;
 
 namespace UserRegistrationSystem
 {
