@@ -30,9 +30,9 @@ namespace UserRegistrationSystem.BLL
         }
         public Account SignupNewAccount(string username, string password)
         {
-            var account = CreateAccount(username, password);
             if (_accountRepository.GetAccount(username) == null)
             {
+                var account = CreateAccount(username, password);
                 _accountRepository.SaveAccount(account);
                 return account;
             }
