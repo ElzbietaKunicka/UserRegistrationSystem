@@ -10,8 +10,8 @@ namespace UserRegistrationSystem.Models
         [MinLength(3, ErrorMessage =
            "UserName cannot be less than 3")]
         public string UserName { get; set; }
-        [MaxLength(25, ErrorMessage =
-   "Password cannot be greater than 25")]
+        [MaxLength(50, ErrorMessage =
+   "Password cannot be greater than 50")]
         [MinLength(3, ErrorMessage =
    "Password cannot be less than 3")]
         [Required]
