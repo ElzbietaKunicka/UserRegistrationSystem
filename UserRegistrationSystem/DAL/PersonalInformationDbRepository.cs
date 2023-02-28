@@ -4,7 +4,6 @@ using System.Numerics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
-using UserRegistrationSystem.Dto;
 using UserRegistrationSystem.Migrations;
 using UserRegistrationSystem.Models;
 
@@ -21,24 +20,29 @@ namespace UserRegistrationSystem.DAL
         public void AddNewPersonalInformation(int currentUserId,
             PersonalInformationDto personalInformationDto)
         {
-            var userFromDb = _context.Accounts.FirstOrDefault(p => p.Id == currentUserId);
+            var userFromDb = _context.Accounts
+                .FirstOrDefault(p => p.Id == currentUserId);
 
             if (userFromDb.PersonalInformationId == null)
             {
-
                 userFromDb.PersonalInformation = new PersonalInformation
                 {
                     Name = personalInformationDto.Name.Trim(),
                     Surname = personalInformationDto.Surname.Trim(),
-                    PersonalCode = personalInformationDto.PersonalCode.Trim(),
+                    PersonalCode = personalInformationDto
+                    .PersonalCode.Trim(),
                     Phone = personalInformationDto.Phone.Trim(),
                     Email = personalInformationDto.Email.Trim(),
                     ResidentialAddress = new ResidentialAddress
                     {
-                        City = personalInformationDto.ResidentialAddress.City.Trim(),
-                        Street = personalInformationDto.ResidentialAddress.Street.Trim(),
-                        HomeNumber = personalInformationDto.ResidentialAddress.HomeNumber,
-                        ApartmentNumber = personalInformationDto.ResidentialAddress.ApartmentNumber,
+                        City = personalInformationDto
+                        .ResidentialAddress.City.Trim(),
+                        Street = personalInformationDto
+                        .ResidentialAddress.Street.Trim(),
+                        HomeNumber = personalInformationDto
+                        .ResidentialAddress.HomeNumber,
+                        ApartmentNumber = personalInformationDto
+                        .ResidentialAddress.ApartmentNumber,
                     },
                 };
                 _context.SaveChanges();
@@ -48,26 +52,27 @@ namespace UserRegistrationSystem.DAL
                 throw new Exception("The information was filled, now you can only update");
             }
         }
-
         public IEnumerable<AccountDto> GetUsersIdAndUsernames()
         {
-            var accounts = _context.Accounts.Select(account => new AccountDto
+            var accounts = _context.Accounts.Select(account =>
+            new AccountDto
             { 
                 Id= account.Id,
                 UserName= account.UserName,
             });
             return accounts;
         }
-
         public int? getPersonalInformationIdByCurrentUser(int currentUserId)
         {
-            var userFromDb = _context.Accounts.FirstOrDefault(p => p.Id == currentUserId);
+            var userFromDb = _context.Accounts
+                .FirstOrDefault(p => p.Id == currentUserId);
             return userFromDb.PersonalInformationId;
         }
         public void UpdatePersonalInformation(int currentUserId,
             PersonalInformationDto personalInformationDto)
         {
-            var userFromDb = _context.Accounts.Include(b => b.PersonalInformation)
+            var userFromDb = _context.Accounts
+                .Include(b => b.PersonalInformation)
                 .ThenInclude(b => b.ResidentialAddress)
                 .FirstOrDefault(p => p.Id == currentUserId);
             userFromDb.PersonalInformation.Name =
@@ -93,7 +98,9 @@ namespace UserRegistrationSystem.DAL
         }
         public PersonalInformation GetAllInfoAboutCurrentUser(int currentUserId)
         {
-            var accountFromDb = _context.Accounts.Include(b => b.PersonalInformation).ThenInclude(b => b.ResidentialAddress)
+            var accountFromDb = _context.Accounts
+                .Include(b => b.PersonalInformation)
+                .ThenInclude(b => b.ResidentialAddress)
                 .FirstOrDefault(p => p.Id == currentUserId);
             return accountFromDb.PersonalInformation;
         }
@@ -150,8 +157,12 @@ namespace UserRegistrationSystem.DAL
 
         public void DeleteAccountById(int id)
         {
-            var accountFromDb = _context.Accounts.Include(p => p.PersonalInformation).ThenInclude(p => p.ResidentialAddress).FirstOrDefault(a => a.Id == id);
-            var accountFromDbWithoutInfo = _context.Accounts.FirstOrDefault(p => p.Id == id);
+            var accountFromDb = _context.Accounts
+                .Include(p => p.PersonalInformation)
+                .ThenInclude(p => p.ResidentialAddress)
+                .FirstOrDefault(a => a.Id == id);
+            var accountFromDbWithoutInfo = _context.Accounts
+                .FirstOrDefault(p => p.Id == id);
             if (accountFromDb == null)
             {
                return;
@@ -162,8 +173,11 @@ namespace UserRegistrationSystem.DAL
                 _context.SaveChanges();
                 return;
             }
-            _context.ResidentialAddresses.RemoveRange(accountFromDb.PersonalInformation.ResidentialAddress);
-            _context.PersonalInformation.RemoveRange(accountFromDb.PersonalInformation);
+            _context.ResidentialAddresses
+                .RemoveRange(accountFromDb.PersonalInformation
+                .ResidentialAddress);
+            _context.PersonalInformation
+                .RemoveRange(accountFromDb.PersonalInformation);
             _context.Accounts.Remove(accountFromDb);
             _context.SaveChanges();
         }

@@ -14,7 +14,6 @@ namespace UserRegistrationSystem
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
             // Add services to the container.
             builder.Services.AddControllers()
                 .AddJsonOptions(o =>
@@ -57,12 +56,18 @@ namespace UserRegistrationSystem
                 });
             });
 
-            builder.Services.AddDbContext<AccountsListDbContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("Database")));
-            builder.Services.AddScoped<IAccountRepository, AccountRepository>();
-            builder.Services.AddScoped<IPersonalInformationList, PersonalInformationDbRepository>();
-            builder.Services.AddScoped<IAccountService, AccountService>();
-            builder.Services.AddScoped<IJwtService, JwtService>();
+            builder.Services.
+                AddDbContext<AccountsListDbContext>(options => 
+                options.UseSqlServer(builder.Configuration
+                .GetConnectionString("Database")));
+            builder.Services.AddScoped<IAccountRepository,
+                AccountRepository>();
+            builder.Services.AddScoped<IPersonalInformationList,
+                PersonalInformationDbRepository>();
+            builder.Services.AddScoped<IAccountService,
+                AccountService>();
+            builder.Services.AddScoped<IJwtService,
+                JwtService>();
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowSpecificOrigin",
@@ -75,18 +80,25 @@ namespace UserRegistrationSystem
                         .AllowCredentials();
                     });
             });
-            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            builder.Services
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
-                    options.TokenValidationParameters = new TokenValidationParameters
+                    options.TokenValidationParameters = 
+                    new TokenValidationParameters
                     {
                         ValidateIssuer = true,
                         ValidateAudience = true,
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
-                        ValidIssuer = builder.Configuration.GetSection("Jwt:Issuer").Value,
-                        ValidAudience = builder.Configuration.GetSection("Jwt:Audience").Value,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("Jwt:Key").Value))
+                        ValidIssuer = builder.Configuration
+                        .GetSection("Jwt:Issuer").Value,
+                        ValidAudience = builder.Configuration
+                        .GetSection("Jwt:Audience").Value,
+                        IssuerSigningKey = 
+                        new SymmetricSecurityKey(Encoding.UTF8
+                        .GetBytes(builder.Configuration
+                        .GetSection("Jwt:Key").Value))
                     };
                 });
 

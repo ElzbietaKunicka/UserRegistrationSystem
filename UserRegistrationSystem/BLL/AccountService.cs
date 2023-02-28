@@ -1,7 +1,6 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 using UserRegistrationSystem.DAL;
-using UserRegistrationSystem.Dto;
 using UserRegistrationSystem.Models;
 
 namespace UserRegistrationSystem.BLL
@@ -13,7 +12,6 @@ namespace UserRegistrationSystem.BLL
         {
             _accountRepository = accountRepository;
         }
-
         public (bool, Account) Login(string username, string password)
         {
             var account = _accountRepository.GetAccount(username);
@@ -30,12 +28,11 @@ namespace UserRegistrationSystem.BLL
                 return (false, null);
             }
         }
-
         public Account SignupNewAccount(string username, string password)
         {
             var account = CreateAccount(username, password);
-            if (_accountRepository.GetAccount(username) == null){
-                
+            if (_accountRepository.GetAccount(username) == null)
+            {
                 _accountRepository.SaveAccount(account);
                 return account;
             }
@@ -67,7 +64,6 @@ namespace UserRegistrationSystem.BLL
         {
             using var hmac = new HMACSHA512(passwordSalt);
             var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-
             return computedHash.SequenceEqual(passwordhash);
         }
     }

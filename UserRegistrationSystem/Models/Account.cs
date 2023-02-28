@@ -9,9 +9,11 @@ namespace UserRegistrationSystem.Models
     public class Account
     {
         [Key]
-        public int Id { get; set; } //pk
-        [MaxLength(25, ErrorMessage = "UserName cannot be greater than 25")]
-        [MinLength(3, ErrorMessage = "UserName cannot be less than 3")]
+        public int Id { get; set; }
+        [MaxLength(25, ErrorMessage = 
+            "UserName cannot be greater than 25")]
+        [MinLength(3, ErrorMessage = 
+            "UserName cannot be less than 3")]
         public string UserName { get; set; }
         [MaxLength(50), MinLength(3)]
         public string Password { get; set; }
@@ -21,6 +23,5 @@ namespace UserRegistrationSystem.Models
         [ForeignKey("PersonalInformationId")]
         public int? PersonalInformationId { get; set; }
         public PersonalInformation PersonalInformation { get; set; }
-
     }
 }

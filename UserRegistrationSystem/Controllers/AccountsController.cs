@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UserRegistrationSystem.BLL;
-using UserRegistrationSystem.Dto;
+using UserRegistrationSystem.Models;
 
 namespace UserRegistrationSystem.Controllers
 {
@@ -13,7 +13,8 @@ namespace UserRegistrationSystem.Controllers
     {
         private readonly IAccountService _accountService;
         private readonly IJwtService _jwtService;
-        public AccountsController(IAccountService accountService, IJwtService jwtService)
+        public AccountsController(IAccountService accountService,
+            IJwtService jwtService)
         {
             _accountService = accountService;
             _jwtService = jwtService;
@@ -32,8 +33,8 @@ namespace UserRegistrationSystem.Controllers
                 {
                     return BadRequest("Password cannot be greater than 50 or less than 3");
                 }
-                _accountService.SignupNewAccount(request.UserName, request.Password);
-                // return ok();
+                _accountService.SignupNewAccount(request.UserName, 
+                    request.Password);
                 return Content($"{request.UserName}");
             }
             catch (Exception ex) 
@@ -45,15 +46,16 @@ namespace UserRegistrationSystem.Controllers
         [HttpPost("Login")]
         public ActionResult Login([FromBody] AuthRequestDto request)
         {
-            var (loginSuccess, account) = _accountService.Login(request.UserName, request.Password);
+            var (loginSuccess, account) = _accountService
+                .Login(request.UserName, request.Password);
             if (!loginSuccess)
             {
                 return BadRequest("Invalid username or password");
             }
             else
             {
-                var jwt = _jwtService.GetJwtToken(account.UserName, account.Id, account.Role);
-                // todo generate jwt
+                var jwt = _jwtService.GetJwtToken(account.UserName, 
+                    account.Id, account.Role);
                 return Ok(jwt);
             }
         }

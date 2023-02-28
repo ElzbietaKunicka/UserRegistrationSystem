@@ -1,4 +1,4 @@
-﻿namespace UserRegistrationSystem.Dto
+﻿namespace UserRegistrationSystem.Models
 {
     public class AuthRequestDto
     {

@@ -11,7 +11,8 @@ namespace UserRegistrationSystem.DAL
         }
         public Account GetAccount(string username)
         {
-            return _context.Accounts.FirstOrDefault(a => a.UserName == username);
+            return _context.Accounts
+                .FirstOrDefault(a => a.UserName == username);
         }
         public void SaveAccount(Account account)
         {

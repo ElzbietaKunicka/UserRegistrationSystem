@@ -15,10 +15,5 @@ namespace UserRegistrationSystem.Models
         public ResidentialAddress ResidentialAddress { get; set; }
         [ForeignKey("ResidentialAddressId")]
         public int? ResidentialAddressId { get; set; }
-
-
-
-
-
     }
 }

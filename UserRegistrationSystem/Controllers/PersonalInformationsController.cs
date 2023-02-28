@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.IIS.Core;
 using UserRegistrationSystem.DAL;
-using UserRegistrationSystem.Dto;
 using UserRegistrationSystem.Models;
 
 namespace UserRegistrationSystem.Controllers
@@ -34,9 +33,7 @@ namespace UserRegistrationSystem.Controllers
                 return Ok();
             }
             return BadRequest(ModelState);
-           
             //_personalInformationList.AddNewPersonalInformation(currentUserIdInt, personalInformationToAdd);
-
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
@@ -64,7 +61,6 @@ namespace UserRegistrationSystem.Controllers
             return _personalInformationList.GetUsersIdAndUsernames();
         }
         
-
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
         [HttpGet("CurrentUserInfo")]
         public PersonalInformation GetAllInfoAboutCurrentUser()
@@ -101,46 +97,5 @@ namespace UserRegistrationSystem.Controllers
         {
             _personalInformationList.DeleteAccountById(id);
         }
-
-        ////[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
-        //[HttpGet]
-        //public PersonalInformation GetPersonalInformationByIdI(int accountId)
-        //{
-        //    return _personalInformationList.getPersonalInformationById(accountId);
-
-        //}
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
-        //[HttpGet] // want todo pagal accountId o ne pagal personal info
-        //public List<PersonalInformationDto> GetPersonalInformationById(int personalInfoId)
-        //{
-        //    return _personalInformationList.getPersonalInformationById(personalInfoId);
-        //    // selecta adr requestas and response...
-        //}
-
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
-        //[HttpGet("PersonalInformationByUserName")] 
-        //public IEnumerable<AccountDto> GetAccountsPersonalInformationByName(string accountsName)
-        //{
-        //    return _personalInformationList.getAccountsInformationByName(accountsName);
-        //}
-
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
-        ////[ProducesDefaultResponseType(typeof(AccountDto))]
-        //[HttpGet("AllUsersInfo")]
-        //public IEnumerable<AccountDto> GetAlLInfoAboutUsers()
-        //{
-        //    //var userIdStr = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
-        //    //var currentUserIdInt = int.Parse(userIdStr);
-        //    return _personalInformationList.GetAllInfoAboutUsers();
-        //}
-
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
-        //[HttpGet("AccountsNames")]
-        //public IEnumerable<string> GetAlLUsersNames()
-        //{
-        //    return _personalInformationList.GetUsersName();
-        //}
-
-
     }
 }

@@ -29,7 +29,6 @@ namespace UserRegistrationSystem.BLL
                 claims: claims,
                 expires: DateTime.Now.AddDays(1),
                 signingCredentials: cred);
-
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
