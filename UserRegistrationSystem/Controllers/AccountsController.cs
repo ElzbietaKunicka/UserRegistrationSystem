@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UserRegistrationSystem.BLL;
+using UserRegistrationSystem.DAL;
 using UserRegistrationSystem.Models;
 
 namespace UserRegistrationSystem.Controllers
@@ -23,24 +24,13 @@ namespace UserRegistrationSystem.Controllers
         [HttpPost("SignUp")]
         public ActionResult Signup([FromBody] AuthRequestDto request)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if(request.UserName.Length > 25 || request.UserName.Length < 3) 
-                {
-                    return BadRequest("UserName cannot be greater than 25 or less than 3");
-                }
-                if (request.Password.Length < 3)
-                {
-                    return BadRequest("Password cannot be greater than 50 or less than 3");
-                }
-                _accountService.SignupNewAccount(request.UserName, 
+                _accountService.SignupNewAccount(request.UserName,
                     request.Password);
                 return Content($"{request.UserName}");
             }
-            catch (Exception ex) 
-            {
-                return BadRequest("A user with this username already exists.");
-            }
+            return BadRequest(ModelState);
         }
 
         [HttpPost("Login")]
